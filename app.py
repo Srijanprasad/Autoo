@@ -2,10 +2,7 @@ import os
 import streamlit as st
 import requests
 
-WEBHOOK_URL = os.getenv(
-    "WEBHOOK_URL",
-    "http://localhost:5678/webhook/6be4ae4d-ead7-4cb8-85fe-c2bb3bec1e91"
-)
+WEBHOOK_URL = st.secrets.get("WEBHOOK_URL") or os.getenv("WEBHOOK_URL", "")
 
 st.title("🤝 Your Personal Assistant")
 st.subheader("What can your personal assistant do?")
@@ -22,6 +19,7 @@ st.markdown(
 )
 
 st.subheader("💬 Chat with your assistant")
+st.caption(f"Using webhook: {WEBHOOK_URL or 'not configured'}")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
